@@ -5,11 +5,13 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework import viewsets,permissions
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
-from .serializers import UserSerializer
+from .serializers import UserSerializer,ProductoSerializer,CategoriaSerializer
+from .models import producto,categoria
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
@@ -42,3 +44,22 @@ def login(request):
     serializer = UserSerializer(user)
     return Response({'token': token.key, 'user': serializer.data})
 
+class ProductoViewSet(viewsets.ModelViewSet):
+    queryset=producto.objects.all()
+    permission_classes=[permissions.AllowAny]
+    serializer_class=ProductoSerializer
+class CategoriaViewSet(viewsets.ModelViewSet):
+    queryset=categoria.objects.all()
+    permission_classes=[permissions.AllowAny]
+    serializer_class=CategoriaSerializer
+
+@api_view(['GET'])
+def ProductoFilterView(request,filter_value,value):
+    if filter_value =="nombre":
+        Producto=producto.objects.filter(nombre=value)
+    if filter_value =="categoria":
+        Producto=producto.objects.filter(categoria=value)
+    if filter_value =="precio":
+        Producto=producto.objects.filter(precio=value)
+    serializer=ProductoSerializer(Producto,many=True)
+    return Response(serializer.data)
