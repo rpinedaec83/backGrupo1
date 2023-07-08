@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from api.models import cupon, estado_pedido, categoria, cliente, producto, pedido, detalle_pedido
+from api.models import Cupon, Estado_pedido, Categoria, Cliente, Producto, Pedido, Detalle_pedido
 
 class cuponAdmin(admin.ModelAdmin):
     list_display = ('codigo', 'descripcion', 'descuento' )
@@ -22,10 +22,10 @@ class pedidoAdmin(admin.ModelAdmin):
 class detalle_pedidoAdmin(admin.ModelAdmin):
     list_display = ('pedido', 'producto', 'cantidad', 'subtotal')
 
-admin.site.register(cupon, cuponAdmin)
-admin.site.register(estado_pedido, estado_pedidoAdmin)
-admin.site.register(categoria, categoriaAdmin)
-admin.site.register(cliente, clienteAdmin)
-admin.site.register(producto, productoAdmin)
-admin.site.register(pedido, pedidoAdmin)
-admin.site.register(detalle_pedido, detalle_pedidoAdmin)
+admin.site.register(Cupon, cuponAdmin)
+admin.site.register(Estado_pedido, estado_pedidoAdmin)
+admin.site.register(Categoria, categoriaAdmin)
+admin.site.register(Cliente, clienteAdmin)
+admin.site.register(Producto, productoAdmin)
+admin.site.register(Pedido, pedidoAdmin)
+admin.site.register(Detalle_pedido, detalle_pedidoAdmin)
