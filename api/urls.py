@@ -28,4 +28,7 @@ urlpatterns = [
     path("api/eliminar_producto_al_carrito/", csrf_exempt(eliminar_producto_al_carrito), name='eliminar_producto_al_carrito'),
     path("api/detalle_pedido_show/", csrf_exempt(detalle_pedido_show), name='detalle_pedido_show'),
     path("api/get_pedido_con_cupon/", csrf_exempt(get_pedido_con_cupon), name='get_pedido_con_cupon'),
+
+    path('api/compras/<int:pk>', MisComprasAPIView.as_view(), name='compras'),
+
 ]
