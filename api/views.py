@@ -196,3 +196,4 @@ def ProductoFilterView(request,filter_value,value):
         Producto=producto.objects.filter(precio=value)
     serializer=ProductoSerializer(Producto,many=True)
     return Response(serializer.data)
+
