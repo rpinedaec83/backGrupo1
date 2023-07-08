@@ -12,6 +12,7 @@ router.register('api/pedido', PedidoViewSet , "pedidos")
 router.register('api/detalle_pedido', Detalle_pedidoViewSet , "detalle_pedidos")
 router.register('api/cliente', ClienteViewSet , "clientes")
 router.register('api/categorias',CategoriaViewSet,'categorias')
+router.register('api/compras',MisComprasAPIView,'mis-compras')
 
 urlpatterns = [
     path('',include(router.urls)),
