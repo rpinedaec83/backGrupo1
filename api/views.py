@@ -45,7 +45,7 @@ class ClienteViewSet(viewsets.ModelViewSet):
     serializer_class = ClienteSerializer
    
 class CategoriaViewSet(viewsets.ModelViewSet):
-    queryset=categoria.objects.all()
+    queryset=Categoria.objects.all()
     permission_classes=[permissions.AllowAny]
     serializer_class=CategoriaSerializer
 
@@ -165,10 +165,10 @@ def get_pedido_con_cupon(request):
 @api_view(['GET'])
 def ProductoFilterView(request,filter_value,value):
     if filter_value =="nombre":
-        Producto=producto.objects.filter(nombre=value)
+        producto=Producto.objects.filter(nombre=value)
     if filter_value =="categoria":
-        Producto=producto.objects.filter(categoria=value)
+        producto=Producto.objects.filter(categoria=value)
     if filter_value =="precio":
-        Producto=producto.objects.filter(precio=value)
-    serializer=ProductoSerializer(Producto,many=True)
+        producto=Producto.objects.filter(precio=value)
+    serializer=ProductoSerializer(producto,many=True)
     return Response(serializer.data)
