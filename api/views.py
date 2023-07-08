@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import viewsets,permissions
 from rest_framework import status
+from rest_framework import generics
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
@@ -189,11 +190,29 @@ def get_pedido_con_cupon(request):
 @api_view(['GET'])
 def ProductoFilterView(request,filter_value,value):
     if filter_value =="nombre":
-        Producto=producto.objects.filter(nombre=value)
+        producto=Producto.objects.filter(nombre=value)
     if filter_value =="categoria":
-        Producto=producto.objects.filter(categoria=value)
+        producto=Producto.objects.filter(categoria=value)
     if filter_value =="precio":
-        Producto=producto.objects.filter(precio=value)
-    serializer=ProductoSerializer(Producto,many=True)
+        producto=Producto.objects.filter(precio=value)
+    serializer=ProductoSerializer(producto,many=True)
     return Response(serializer.data)
 
+
+class MisComprasAPIView(generics.RetrieveAPIView):
+    serializer_class = CompraSerializer
+
+    def get_queryset(self):
+        pk = self.kwargs.get('pk')
+        return Pedido.objects.filter(cliente_id=pk)
+
+    def get(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        response_data = serializer.data
+        detalle_compra_data = []
+        for detalle in instance.detalle_pedido_set.all():
+            detalle_serializer = DetalleCompraSerializer(detalle)
+            detalle_compra_data.append(detalle_serializer.data)
+        response_data['detalle_pedido'] = detalle_compra_data
+        return Response(response_data)
