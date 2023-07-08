@@ -29,3 +29,7 @@ class ClienteSerializer(serializers.ModelSerializer):
         model = Cliente
         fields = '__all__'
 
+class CategoriaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = categoria
+        fields='__all__'

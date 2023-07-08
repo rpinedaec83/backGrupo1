@@ -5,10 +5,12 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework import viewsets,permissions
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
+
 from .serializers import *
 from .models import *
 from django.shortcuts import render
@@ -41,6 +43,11 @@ class ClienteViewSet(viewsets.ModelViewSet):
     queryset = Cliente.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = ClienteSerializer
+   
+class CategoriaViewSet(viewsets.ModelViewSet):
+    queryset=categoria.objects.all()
+    permission_classes=[permissions.AllowAny]
+    serializer_class=CategoriaSerializer
 
 
 @api_view(['GET'])
@@ -155,3 +162,13 @@ def get_pedido_con_cupon(request):
         return render(request, 'detalle_pedido_show.html',  {'detalle_pedidos_':detalle_pedidos_, 'costo_total': nuevo_costo})
 
 
+@api_view(['GET'])
+def ProductoFilterView(request,filter_value,value):
+    if filter_value =="nombre":
+        Producto=producto.objects.filter(nombre=value)
+    if filter_value =="categoria":
+        Producto=producto.objects.filter(categoria=value)
+    if filter_value =="precio":
+        Producto=producto.objects.filter(precio=value)
+    serializer=ProductoSerializer(Producto,many=True)
+    return Response(serializer.data)
