@@ -5,7 +5,7 @@ from .views import *
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import routers
 from rest_framework.response import Response
-
+#exposición final realizada
 router = routers.DefaultRouter()
 
 router.register('api/producto', ProductoViewSet , "productos")
